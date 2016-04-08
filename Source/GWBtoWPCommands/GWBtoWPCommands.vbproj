@@ -14,7 +14,7 @@
     <AssemblyName>MetaWebLogEdit</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <SccProjectName>SAK</SccProjectName>
@@ -46,6 +46,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>MetaWebLogEdit.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -56,6 +57,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>MetaWebLogEdit.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -156,6 +158,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CsUtilities\CsUtilities.csproj">
+      <Project>{42745a81-ee9b-404d-ba89-a3f8dd518dd4}</Project>
+      <Name>CsUtilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MetaWeblog\MetaWeblog.csproj">
       <Project>{A23DC12B-D36F-4F40-844C-333EA9A517CD}</Project>
       <Name>MetaWeblog</Name>

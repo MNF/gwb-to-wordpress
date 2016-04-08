@@ -47,6 +47,10 @@ Public Class FindEmptyCatagorysCommand
     End Property
 
     Protected Overrides Function RunCommand() As Integer
+        Dim folderPath As String = "c:\temp\"
+        Dim logPath = String.Format(folderPath + "ConsoleLog-EmptyCat-{0}-{1}.log", Me.CommandLine.Username, Now.ToString("yyyy-MM-dd-HH-mm-ss"))
+        Dim consoleLog As New CsUtilities.ConsoleCopy(logPath)
+
         '  get info on user's blogs */ 
         Dim blogs() As CookComputing.Blogger.BlogInfo = Server.getUsersBlogs(String.Empty, Me.CommandLine.Username, Me.CommandLine.Password)
         Dim b As CookComputing.Blogger.BlogInfo
@@ -59,8 +63,13 @@ Public Class FindEmptyCatagorysCommand
             Dim p As CookComputing.MetaWeblog.Post
             '-------------------------------------------------
             Dim ca() As CookComputing.MovableType.Category = Server.getCategoryList(b.blogName, Me.CommandLine.Username, Me.CommandLine.Password)
-
-            Dim nullCat As CookComputing.MovableType.Category = (From c In ca Where c.categoryName = "None").SingleOrDefault
+            Dim defaultCategory As String = "None" 'TODO parameter that could be changed 
+            Dim nullCat As CookComputing.MovableType.Category = (From c In ca Where c.categoryName = defaultCategory).SingleOrDefault
+            If nullCat.categoryId Is Nothing Then
+                Console.WriteLine(String.Format("No category with name '{0}' found, you should create the category or change the name of defaultCategory ",
+                                  defaultCategory))
+                Return -1
+            End If
             Dim nullList As New List(Of CookComputing.MovableType.Category)
             nullList.Add(nullCat)
 
@@ -69,16 +78,16 @@ Public Class FindEmptyCatagorysCommand
 
 
             For Each p In posts
-
+                Dim postDescription As String = String.Format("[{0}] - {1} - {2} ", p.postid, p.dateCreated.ToShortDateString, p.title)
                 Try
 
                     If p.categories Is Nothing Then
                         If Server.setPostCategories(p.postid, Me.CommandLine.Username, Me.CommandLine.Password, nullList.ToArray) Then
                             Console.ForegroundColor = ConsoleColor.Green
-                            Console.Write(String.Format("[{0}]", p.postid))
+                            Console.WriteLine(postDescription + defaultCategory + " category added")
                         Else
                             Console.ForegroundColor = ConsoleColor.Yellow
-                            Console.Write(String.Format("[{0}]", p.postid))
+                            Console.WriteLine(postDescription + defaultCategory + " category not added")
                         End If
                     Else
                         Console.ForegroundColor = ConsoleColor.Blue
@@ -87,8 +96,9 @@ Public Class FindEmptyCatagorysCommand
 
                 Catch ex As Exception
                     Console.ForegroundColor = ConsoleColor.Red
-                    Console.WriteLine()
-                    Console.WriteLine(String.Format("[{0}] - {1} - {2}", p.postid, p.dateCreated.ToShortDateString, p.title))
+                    Console.WriteLine("")
+                    Console.WriteLine(postDescription)
+                    Console.WriteLine(ex.ToString)
                 End Try
 
                 Console.ResetColor()
@@ -98,6 +108,7 @@ Public Class FindEmptyCatagorysCommand
                 End If
             Next
         Next
+        consoleLog.Dispose()
         Return 0
     End Function
 

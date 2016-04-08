@@ -12,9 +12,9 @@ Namespace MetaWeblogApi
     '/ This class can be used to programmatically interact with a Weblog on 
     '/ MSN Spaces using the MetaWeblog API. 
     '/ </summary> 
-    '<XmlRpcUrl("http://geekswithblogs.net/hinshelm/services/metablogapi.aspx")> _ 
     'TODO: You need to put your own URL in here (Not perfect, fix if you can)
     '<XmlRpcUrl("http://blog.hinshelwood.com/xmlrpc.php")> _
+    <XmlRpcUrl("http://geekswithblogs.net/YourBlogName/services/metablogapi.aspx")> _
     Class GwbMetaWeblog
         Inherits XmlRpcClientProtocol
 

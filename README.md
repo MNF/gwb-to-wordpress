@@ -21,12 +21,17 @@ Here is the process and tools that you will have to customise and use:
 
     1.  Add it to a BlogML
     2.  Save BlogML
-2.  **Post all saved posts to new WordPress site (Wordpress has its own importer)**
+2.  **Post all saved posts to new WordPress site **
 
-    For each Post in BlogML
-
-    1.  Publish to WordPress
-    2.  Save
+To import blogML format to Wordpress, there are a few tools available.  
+If your new blog is self hosted from Wordpress.org, you can install some of available plugins, e.g. http://nixmash.com/on-wordpress/importing-a-big-honkin-blogml-xml-file-into-wordpress/
+But custom plugins not supported in Wordpress.com. For Wordpress.com you can use blogmigrator (https://github.com/Dillie-O/blogmigrator )
+ or BlogML.Helper.exe (http://blogs.biztalk360.com/migrating-your-blog-from-any-blogml-based-platform-to-wordpress-2).
+Blogmigrator has less steps to do, but doesn't import comments. If comments are important to you, the only choice that I found is BlogML.Helper.exe
+    For each Post in BlogML  
+    1.  Publish to WordPress  
+    2.  Save  
+	
 3.  **Update all Posts to change context**
 
     For each Post on WordPress:
@@ -54,6 +59,29 @@ Here is the process and tools that you will have to customise and use:
     3.  Add “I have moved my blog to “XXX” to the end
     4.  Save post
 5.  DONE
+
+## How To Start 
+* In GWBtoWPCommands\MetaWeblogApiProxy.vb   
+    'TODO: You need to put your own URL in here (Not perfect, fix if you can)  
+&lt;XmlRpcUrl("http://geekswithblogs.net/hinshelm/services/metablogapi.aspx")&gt;
+
+* In GWBtoWPCommands\Commands\ExportCommand.vb output folder specified as  
+        Dim folderPath As String = "c:\temp\"  
+You can change it if you want.
+
+* if you will use EmptyCat, you need either create the category with the name "None" in GWB admin or change the name of defaultCategory in Commands\FindEmptyCatagorysCommand.vb 
+
+* Specify GWBtoWPCommands as Start Project
+
+* In GWBtoWPCommands project debug arguments specify  
+EmptyCat /u:YourUserName /p:YourPassword  
+and run it.
+
+* Then in GWBtoWPCommands project debug arguments specify  
+export /u:YourUserName /p:YourPassword  
+and run it.
+
+
 
 There are many other tools, but they all need customising to some degree to do exactly the things you want.
 
